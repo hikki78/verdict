@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { verifySchema } from '@/schemas/verifySchema';
 
-export default function VerifyAccount() {
+function VerifyAccount(){
   const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();

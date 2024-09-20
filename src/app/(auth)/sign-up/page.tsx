@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDebounce } from 'usehooks-ts';
+import { useDebounceValue } from 'usehooks-ts';
 import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import axios, { AxiosError } from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -28,7 +28,7 @@ export default function SignUpForm() {
   const [usernameMessage, setUsernameMessage] = useState('');
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debouncedUsername = useDebounce(username, 300);
+  const debouncedUsername = useDebounceValue<string>(username, 300);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -49,7 +49,7 @@ export default function SignUpForm() {
         setUsernameMessage(''); // Reset message
         try {
           const response = await axios.get<ApiResponse>(
-            `/api/check-username-unique?username=${debouncedUsername}`
+            `./api/check-username-unique?username=${debouncedUsername}`
           );
           setUsernameMessage(response.data.message);
         } catch (error) {
@@ -61,7 +61,7 @@ export default function SignUpForm() {
           setIsCheckingUsername(false);
         }
       }
-    };
+    }
     checkUsernameUnique();
   }, [debouncedUsername]);
 
