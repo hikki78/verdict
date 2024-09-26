@@ -18,7 +18,7 @@
   import * as z from 'zod';
   import { verifySchema } from '@/schemas/verifySchema';
 
-  function VerifyAccount(){
+  export default function VerifyAccount(){
     const router = useRouter();
     const params = useParams<{ username: string }>();
     const { toast } = useToast();
