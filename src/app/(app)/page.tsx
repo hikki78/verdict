@@ -1,5 +1,5 @@
 'use client';
-
+import { cn } from "@/lib/utils";
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -23,10 +23,20 @@ export default function Home() {
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-800 text-white">
         <section className="text-center mb-8 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold">
-            Dive into the World of Anonymous Feedback
+            Confess your thoughts, express your feelings, Go for the ultimate{" "}
+            <span className={cn(
+              "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent",
+              "animate-gradient-x"
+            )}>
+              VERDICT
+            </span>
           </h1>
-          <p className="mt-3 md:mt-4 text-base md:text-lg">
-            True Feedback - Where your identity remains a secret.
+          <p className={cn(
+               "mt-3 md:mt-4 text-base md:text-lg",
+               "font-bold bg-gradient-to-r from-blue-400 to-yellow-500 bg-clip-text text-transparent",
+               "animate-gradient-x"
+             )}>
+            Here you can give your verdict anonymously.
           </p>
         </section>
 
@@ -59,8 +69,15 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        © 2023 True Feedback. All rights reserved.
+      <footer className="text-center p-4 md:p-6 bg-black text-white">
+        © 2024 Verdict. Made by{" "}
+        <Link href="https://github.com/hikki78" className={cn(
+          "font-bold bg-gradient-to-r from-red-400 to-blue-500 bg-clip-text text-transparent",
+          "hover:from-blue-500 hover:to-green-400 transition-all duration-300"
+        )}>
+          Me
+        </Link>{" "}
+        with ❤️.
       </footer>
     </>
   );
