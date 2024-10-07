@@ -27,7 +27,8 @@ export async function POST(request: Request) {
     const newMessage = { content, createdAt: new Date() };
 
     // Push the new message to the user's messages array
-    user.messages.push(newMessage as Message);
+    // @ts-ignore
+      user.messages.push(newMessage as Message);
     await user.save();
 
     return Response.json(
