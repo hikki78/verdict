@@ -1,11 +1,20 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface Message extends Document {
+export interface IMessage extends Document {
+  _id: string;
   content: string;
   createdAt: Date;
 }
 
-const MessageSchema: Schema<Message> = new mongoose.Schema({
+// Interface for the plain object (used in frontend)
+export interface Message {
+  _id: string;
+  content: string;
+  createdAt: string;
+}
+
+// Schema definition
+const MessageSchema: Schema = new mongoose.Schema({
   content: {
     type: String,
     required: true,
