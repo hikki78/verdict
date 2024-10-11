@@ -1,31 +1,33 @@
 import mongoose from 'mongoose';
 
-type ConnectionObject = {
-  isConnected?: number;
-};
+const MONGODB_URI = process.env.MONGODB_URI;
 
-const connection: ConnectionObject = {};
+if (!MONGODB_URI) {
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local'
+  );
+}
 
-async function dbConnect(): Promise<void> {
-  // Check if we have a connection to the database or if it's currently connecting
-  if (connection.isConnected) {
-    console.log('Already connected to the database');
+async function dbConnect(retries = 5) {
+  if (mongoose.connection.readyState >= 1) {
     return;
   }
 
-  try {
-    // Attempt to connect to the database
-    const db = await mongoose.connect(process.env.MONGODB_URI || '', {});
-
-    connection.isConnected = db.connections[0].readyState;
-
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Database connection failed:', error);
-
-    // Graceful exit in case of a connection error
-    process.exit(1);
+  while (retries > 0) {
+    try {
+      await mongoose.connect(MONGODB_URI);
+      console.log('Connected to MongoDB');
+      return;
+    } catch (error) {
+      console.error('Failed to connect to MongoDB:', error);
+      retries -= 1;
+      console.log(`Retries left: ${retries}`);
+      // Wait for 5 seconds before retrying
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
   }
+
+  throw new Error('Unable to connect to MongoDB');
 }
 
 export default dbConnect;
